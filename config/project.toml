@@ -1,0 +1,10 @@
+project_name = "demo-hyperparameter-search"
+target_file = "demo_target/train.py"
+evaluation_command = "python demo_target/eval.py"
+score_pattern = "SCORE=(?P<score>-?\\d+(?:\\.\\d+)?)"
+direction = "maximize"
+
+[mutation]
+constant_names = ["ALPHA", "BETA", "GAMMA", "DELTA"]
+step_scale = 0.35
+random_seed = 7
