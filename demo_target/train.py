@@ -4,7 +4,7 @@ Single editable target file for the local demo.
 The search loop mutates only these constants.
 """
 
-ALPHA = 0.725669
+ALPHA = 1.051338
 BETA = -1.100000
 GAMMA = 2.800000
 DELTA = 0.249982
