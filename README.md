@@ -9,7 +9,7 @@ It compares proposal strategies under fixed task adapters, explicit scalar evalu
 The current system is benchmark-driven and task-dependent, not a broad autonomous research agent.
 
 **文档入口**  
-[`README`](README.md) · [`冻结评估报告`](docs/superpowers/plans/2026-03-27-frozen-evaluation-interim-report.md) · [`GitHub Launch Notes`](docs/launch/2026-03-28-github-launch-notes.md)
+[`English README`](README_en.md) · [`冻结评估报告`](docs/superpowers/plans/2026-03-27-frozen-evaluation-interim-report.md) · [`GitHub Launch Notes`](docs/launch/2026-03-28-github-launch-notes.md)
 
 ### 全中文为主 · 工程评估导向的 autoresearch 实验仓库
 
