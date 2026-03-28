@@ -128,6 +128,14 @@ The current system is a task-dependent benchmark harness, not a broad autonomous
 
 ## GitHub Release 正文草案 / GitHub Release Body Draft
 
+### Release Title
+
+简中：  
+`首次公开发布：以评估为先的 autoresearch 实验框架`
+
+English:  
+`Initial public release: an evaluation-first autoresearch harness`
+
 ### 简中
 
 `autoresearch-evaluation-harness` 当前版本重点不是扩展更多机制，而是把 autoresearch 风格 loop 的评估面做扎实。  
@@ -139,3 +147,52 @@ The current system is a task-dependent benchmark harness, not a broad autonomous
 This release focuses on making the evaluation surface of an autoresearch-style loop more trustworthy, not on adding more mechanism layers.  
 The repo now includes fixed task adapters, hard keep/discard gates, repeatable benchmarking, an LLM proposal path, and opt-in held-out checks.  
 The current evidence supports the system as an evaluation harness, while still showing clearly task-dependent behavior rather than broad generalization.
+
+## GitHub 设置清单 / GitHub Settings Checklist
+
+### About 页面填写顺序
+
+1. Description
+2. Website
+3. Topics
+
+### Description
+
+中文主：  
+`一个以评估为先的 autoresearch 风格本地实验框架，包含 LLM proposal、硬性 keep/discard 与可基准化的 task adapter。`
+
+English secondary:  
+`Local evaluation-first harness for autoresearch-style loops with LLM proposal, hard keep/discard, and benchmarkable task adapters.`
+
+### Website
+
+推荐：  
+`https://github.com/sou350121/autoresearch-evaluation-harness/blob/master/docs/launch/2026-03-28-github-launch-notes.md`
+
+### Topics
+
+- `autoresearch`
+- `evaluation-harness`
+- `llm-in-the-loop`
+- `benchmarking`
+- `task-adapters`
+- `keep-discard`
+- `experiment-tracking`
+- `research-tooling`
+
+### Social Preview 短句
+
+中文主：  
+`一个以评估为先的 autoresearch 实验框架`
+
+English secondary:  
+`An evaluation-first harness for autoresearch-style loops`
+
+### 发布页面粘贴顺序
+
+1. 标题：先用中文标题，必要时在描述里补英文副标题
+2. 正文：先贴简中版本，再贴 English 版本
+3. 链接：
+   - `README.md`
+   - `docs/superpowers/plans/2026-03-27-frozen-evaluation-interim-report.md`
+   - `docs/launch/2026-03-28-github-launch-notes.md`
