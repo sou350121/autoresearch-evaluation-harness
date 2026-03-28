@@ -1,37 +1,47 @@
-# autoresearch-plus
+# autoresearch-evaluation-harness
 
-`autoresearch-plus` 是一个以评估为先的 `autoresearch` 风格实验框架。  
+一个以评估为先的 `autoresearch` 风格实验框架。  
 它用固定 task adapter、明确的标量评估信号，以及硬性的 keep/discard gate 来比较不同 proposal strategy。  
 当前系统的可信定位是：**benchmark-driven、task-dependent、adapter-shaped**，而不是通用 autonomous research agent。
 
-`autoresearch-plus` is an evaluation-first harness for `autoresearch`-style loops.  
+An evaluation-first harness for `autoresearch`-style loops.  
 It compares proposal strategies under fixed task adapters, explicit scalar evaluation, and hard keep/discard gates.  
 The current system is benchmark-driven and task-dependent, not a broad autonomous research agent.
 
-## 这个仓库是什么 / What This Repo Is
+**文档入口**  
+[`README`](README.md) · [`冻结评估报告`](docs/superpowers/plans/2026-03-27-frozen-evaluation-interim-report.md) · [`GitHub Launch Notes`](docs/launch/2026-03-28-github-launch-notes.md)
 
-- 一个用于比较 search 和 proposal strategy 的本地实验框架
-- 一个围绕 `baseline -> search -> report -> benchmark` 构建的小型、可审计闭环
-- 一个带有明确 evaluation contract 的 task-adapter 系统
-- 一个把 held-out 检查视为 opt-in 证据、而不是默认回归项的仓库
+### 全中文为主 · 工程评估导向的 autoresearch 实验仓库
 
-它保留了 `karpathy/autoresearch` 最有价值的核心约束：
+很多 autoresearch 风格项目一上来就展示 agent 能做多少事，但很少先把**怎么比较、怎么保留、怎么拒绝**讲清楚。  
+这个仓库只做一件事：**把 proposal strategy 放进固定任务、固定预算、硬性 keep/discard 的评估面里，看看它到底有没有稳定价值。**
 
-- one main target file
-- one scalar evaluation signal
-- a hard keep/discard loop
+---
 
-它只从更重的系统里借了少数高价值结构：
+## 三句话说清楚这个项目的价值
 
-- explicit run ledger and notes
-- accepted baseline gate
-- per-run JSON traces
-- ACT-style chunked mutation regions
-- a heuristic flow-inspired prior over chunk and mutation choice
-- a task-adapter boundary so the core loop is not tied to one demo artifact
+1. **不是展示 agent 花样**：它首先是一个 evaluation harness，用同一套 task adapter 和 benchmark 去比较不同 proposal strategy，而不是只看单次最好分。
+2. **让 LLM 进场，但不让它自证成功**：LLM 可以参与 proposal，但成功与否必须由外部 evaluator、report 和 keep/discard gate 决定。
+3. **把泛化问题留给 held-out 去说话**：默认 benchmark 与 held-out 检查分开，避免一边调系统、一边把 held-out 也调脏。
 
-它**不**试图把自己包装成 general research platform。  
-这个仓库的重点是把 loop 保持在足够小、足够清楚、仍然能一口气讲明白的范围内。
+## 当前状态 / Current Status
+
+- 已具备可运行的 `baseline -> search -> report -> benchmark` 主流程
+- 已支持多类 task adapter，包括 toy、real-fixture、DL/proxy 与 opt-in held-out task
+- 当前最稳定的结论是：系统表现明显 `task-dependent`
+- 当前最诚实的定位是：**高质量 evaluation harness**，不是已证明通用性的 research agent
+
+## 这个仓库不主张什么 / What This Repo Does Not Claim
+
+- 不主张 broad generalization across tasks
+- 不主张 `llm_codex` 已普遍强于 non-LLM baseline
+- 不主张 `memory + retry` 已经具备 broad independent value
+- 不主张当前系统已经以一般形式解决 unknown-method problem
+
+## 默认 benchmark 与 held-out / Default Benchmark vs Held-Out
+
+默认 benchmark 用来做日常回归与模式比较。  
+held-out task 是额外验证项，**不会**进入默认 benchmark，必须显式通过 `--task` 指定。
 
 ## 项目目标 / Project Goals
 
@@ -40,22 +50,6 @@ The current system is benchmark-driven and task-dependent, not a broad autonomou
 - 让 task-dependent 的强弱和失败都可见，而不是被一个 headline score 掩盖
 - 将默认 benchmark task 与 opt-in held-out 检查分开
 - 允许 LLM 参与 proposal，但不让模型自己判定是否成功
-
-## 当前不主张的内容 / What It Does Not Claim
-
-- 不主张 broad generalization across tasks
-- 不主张 `llm_codex` 已普遍强于 non-LLM baseline
-- 不主张 `memory + retry` 已经具备 broad independent value
-- 不主张当前系统已经以一般形式解决 unknown-method problem
-
-## 当前证据 / Current Evidence
-
-- harness 本身已经能工作：task filtering、per-trial isolation、reporting 和 benchmark summaries 都已接通
-- 当前增益是明显 task-dependent 的：有些任务偏向 LLM mode，有些任务偏向更简单的 guided baseline
-- held-out 证据目前是混合的：
-  - `wine_classification` 更偏向 non-LLM guided baseline
-  - `friedman1_regression` 更偏向 LLM proposal
-- `memory + retry` 目前最强的局部正信号仍然是 `diabetes_regression`，而不是整个 task set
 
 ## 仓库结构 / Repo Layout
 
