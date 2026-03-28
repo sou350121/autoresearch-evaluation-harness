@@ -1,8 +1,53 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "autoresearch-plus"
+name = "autoresearch-evaluation-harness"
 version = "0.1.0"
-description = "A minimal autoresearch-style experiment loop with ledger, baseline gate, and traces."
+description = "An evaluation-first harness for autoresearch-style loops with LLM proposal, hard keep/discard, and benchmarkable task adapters."
+readme = "README.md"
+license = {text = "MIT"}
 requires-python = ">=3.11"
+authors = [
+    {name = "sou350121"}
+]
+keywords = ["autoresearch", "evaluation", "benchmark", "llm", "experiment-tracking"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/sou350121/autoresearch-evaluation-harness"
+Repository = "https://github.com/sou350121/autoresearch-evaluation-harness"
+Issues = "https://github.com/sou350121/autoresearch-evaluation-harness/issues"
+
+[project.scripts]
+autoresearch-plus = "autoresearch_plus.cli:main"
 
 [tool.autoresearch_plus]
 package = "autoresearch_plus"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
