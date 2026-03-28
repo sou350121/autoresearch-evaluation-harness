@@ -2,7 +2,7 @@
 
 Operate like a tight experiment loop.
 
-- Edit only the configured target file.
+- Edit only the configured target file through small, reviewable code patches.
 - Change as little as possible per run.
 - Use the scalar score as the primary decision signal.
 - Compare only against the previous accepted revision.

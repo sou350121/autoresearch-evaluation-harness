@@ -1,10 +1,28 @@
 project_name = "demo-hyperparameter-search"
+adapter = "numeric_demo"
+proposer = "chunked_prior"
+edit_scope = ["demo_target/train.py"]
 target_file = "demo_target/train.py"
 evaluation_command = "python demo_target/eval.py"
 score_pattern = "SCORE=(?P<score>-?\\d+(?:\\.\\d+)?)"
 direction = "maximize"
 
 [mutation]
-constant_names = ["ALPHA", "BETA", "GAMMA", "DELTA"]
-step_scale = 0.35
+mode = "python_ast_patch"
+max_constant_delta = 0.30
 random_seed = 7
+allowed_math_funcs = ["sin", "cos", "tanh"]
+allowed_binary_ops = ["Add", "Sub", "Mult"]
+
+[chunking]
+enabled = true
+strategy = "ast_assignments"
+chunk_budget = 1
+
+[prior]
+enabled = true
+lookback = 6
+decay = 0.8
+accept_boost = 1.5
+reject_penalty = 1.0
+min_weight = 0.2

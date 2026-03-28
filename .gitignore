@@ -1,4 +1,5 @@
 runs/results.tsv
 runs/traces/
+runs/accepted_snapshots/
 __pycache__/
 *.pyc

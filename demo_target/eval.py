@@ -2,30 +2,25 @@ from __future__ import annotations
 
 import math
 
-from train import current_params
+from train import predict
 
 
-def hidden_objective(alpha: float, beta: float, gamma: float, delta: float) -> float:
-    # This is intentionally smooth and noisy enough to make the loop interesting,
-    # but still deterministic and cheap.
-    penalty = 0.0
-    penalty += 4.5 * (alpha - 1.75) ** 2
-    penalty += 3.8 * (beta + 0.65) ** 2
-    penalty += 2.2 * (gamma - 3.20) ** 2
-    penalty += 5.0 * (delta - 0.85) ** 2
-    interaction = math.sin(alpha * 2.3) + math.cos(gamma - beta) + 0.4 * math.sin(delta * 5.0)
-    return 100.0 - penalty + interaction
+def hidden_target(x: float, y: float) -> float:
+    base = 1.46 * x + 0.52 * y
+    wave = math.sin(x * 0.86) + 0.72 * math.cos(y * 1.18)
+    shape = 0.20 * x * y - 0.10 * x * x + 0.08 * y * y
+    bias = 0.18
+    return base + wave + shape + bias
+
+
+def dataset() -> list[tuple[float, float]]:
+    return [(x / 3.0, y / 4.0) for x in range(-6, 7) for y in range(-6, 7)]
 
 
 def main() -> None:
-    params = current_params()
-    score = hidden_objective(
-        params["ALPHA"],
-        params["BETA"],
-        params["GAMMA"],
-        params["DELTA"],
-    )
-    print("PARAMS", params)
+    points = dataset()
+    mse = sum((predict(x, y) - hidden_target(x, y)) ** 2 for x, y in points) / len(points)
+    score = 100.0 - mse
     print(f"SCORE={score:.6f}")
 
 
