@@ -1,6 +1,15 @@
 # autoresearch-plus
 
-`autoresearch-plus` is a local skeleton for building an `autoresearch`-style self-improving loop without jumping straight to a full research OS.
+`autoresearch-plus` is an evaluation-first harness for `autoresearch`-style loops.
+It compares proposal strategies under fixed task adapters, explicit scalar evaluation, and hard keep/discard gates.
+The current system is benchmark-driven and task-dependent, not a broad autonomous research agent.
+
+## What this repo is
+
+- a local experimental harness for comparing search and proposal strategies
+- a small, auditable loop built around `baseline -> search -> report -> benchmark`
+- a task-adapter system with explicit evaluation contracts
+- a repo that treats held-out checks as opt-in evidence, not default regression
 
 It keeps the strongest part of `karpathy/autoresearch`:
 
@@ -18,6 +27,30 @@ It borrows only a few high-value ideas from larger systems:
 - a task-adapter boundary so the core loop is not tied to one demo artifact
 
 It does **not** try to be a general research platform. The point is to keep the loop small enough that you can still explain it in one breath.
+
+## Project goals
+
+- keep the autoresearch loop small, local, and auditable
+- compare proposal strategies under the same evaluation budget
+- make task-dependent wins and losses visible instead of hiding them behind one headline score
+- separate default benchmark tasks from opt-in held-out checks
+- support LLM-in-the-loop proposal without letting the model judge its own success
+
+## What it does not claim
+
+- it does not claim broad generalization across tasks
+- it does not claim that `llm_codex` is generally stronger than non-LLM baselines
+- it does not claim that `memory + retry` has broad independent value
+- it does not claim to solve unknown-method problems in a general way
+
+## Current evidence
+
+- the harness itself works: task filtering, per-trial isolation, reporting, and benchmark summaries are operational
+- current gains are task-dependent: some tasks favor LLM modes, some favor simpler guided baselines
+- held-out evidence is mixed:
+  - `wine_classification` favored non-LLM guided baselines
+  - `friedman1_regression` favored LLM proposal
+- the strongest local positive signal for `memory + retry` remains `diabetes_regression`, not the whole task set
 
 ## Repo layout
 
@@ -37,8 +70,6 @@ It does **not** try to be a general research platform. The point is to keep the 
 - `demo_digits_image_classification/eval.py`: digits classification scorer
 - `demo_diabetes_regression/task.py`: regression demo artifact
 - `demo_diabetes_regression/eval.py`: diabetes regression scorer
-- `demo_friedman1_regression/task.py`: held-out nonlinear regression demo artifact
-- `demo_friedman1_regression/eval.py`: held-out friedman1 regression scorer
 - `demo_breast_cancer_classification/task.py`: tabular classification demo artifact
 - `demo_breast_cancer_classification/eval.py`: breast cancer classification scorer
 - `demo_wine_classification/task.py`: held-out tabular classification demo artifact
@@ -129,6 +160,7 @@ This repo is meant to sit in the middle:
 
 - `docs/superpowers/plans/2026-03-27-frozen-evaluation-interim-report.md`: current frozen-evaluation evidence and claims
 - `docs/superpowers/plans/2026-03-28-held-out-task-plan.md`: held-out task plan and implementation record for `wine_classification`
+- `docs/launch/2026-03-28-github-launch-notes.md`: public launch copy, repo description, and current non-claims
 
 ## Quick start
 
@@ -139,6 +171,8 @@ python -m src.autoresearch_plus.cli baseline
 python -m src.autoresearch_plus.cli search --iterations 8
 python -m src.autoresearch_plus.cli report
 python -m src.autoresearch_plus.cli benchmark --iterations 8 --trials 2
+python -m src.autoresearch_plus.cli benchmark --iterations 1 --trials 3 --task breast_cancer_classification
+python -m src.autoresearch_plus.cli benchmark --iterations 1 --trials 3 --task wine_classification
 ```
 
 The demo target is intentionally simple. The loop applies small Python AST patches to `demo_target/train.py`, runs `demo_target/eval.py`, and keeps only improvements.
